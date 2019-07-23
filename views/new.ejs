@@ -1,0 +1,13 @@
+<% include ./partials/header.ejs%>
+
+<div class="container">
+	<div style="width: 60%; margin: 0 auto">
+		<h1>Create New Camground</h1><hr>
+		<form action="/campgrounds" method="post">
+			<input type="text" name="name" placeholder="Name" class="form-control mb-2">
+			<input type="text" name="image" placeholder="Image Url" class="form-control mb-2">
+			<button type="submit" class="btn btn-primary">Create</button>
+		</form>
+		or <a href="/campgrounds" class="mb-2">Go Back</a>
+	</div>
+</div>
