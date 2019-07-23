@@ -1,6 +1,7 @@
 var express = require('express')
 	app = express()
-	bodyParser = require('body-parser');
+	bodyParser = require('body-parser')
+	mongoose = require('mongoose');
 
 var port = process.env.PORT || 3000;
 
@@ -11,27 +12,58 @@ app.get('/', (req, res)=>{
 	res.render('landing')
 })
 
-const campgrounds = [
-	{ name: 'Salamon Greek', image: 'https://pixabay.com/get/54e6d0434957a514f6da8c7dda793f7f1636dfe2564c704c732c7cdd9244c05f_340.jpg'},
-	{ name: 'Sante Catrine', image: 'https://pixabay.com/get/57e8d0424a5bae14f6da8c7dda793f7f1636dfe2564c704c732c7cdd9244c05f_340.jpg'},
-	{ name: 'El Rayan Vally', image: 'https://pixabay.com/get/57e2d54b4852ad14f6da8c7dda793f7f1636dfe2564c704c732c7cdd9244c05f_340.jpg'},
-	{ name: 'Mountian Goat\'s Rest' , image: 'https://pixabay.com/get/57e8d1454b56ae14f6da8c7dda793f7f1636dfe2564c704c732c7cdd9244c05f_340.jpg'},
-]
 
-app.get('/campgrounds', (req, res)=>{
-	res.render('campgrounds', {campgrounds: campgrounds})
+// use mongodb and mongoose
+mongoose.connect('mongodb://localhost/yelp-camp', {useNewUrlParser: true})
+
+var campgroundSchema = new mongoose.Schema({
+    name: String,
+	image: String,
+	description: String
 })
 
+var Campground = mongoose.model("Campground", campgroundSchema)
+
+// Routes
+
+// INDEX - Show all Campgrounds
+app.get('/campgrounds', (req, res)=>{
+	var AllCampgrounds;
+	Campground.find({}, (err, AllCampgrounds)=>{
+		if(err) throw err;
+		res.render('campgrounds', {campgrounds: AllCampgrounds})
+	})
+})
+
+// NEW - Form page to add new Campground
 app.get('/campgrounds/new', (req, res)=>{
 	res.render('new')
 })
 
+// CREATE - Add new Campground
 app.post('/campgrounds', (req, res)=>{
 	// get data form form request and add it to campgrounds array
-	var newCampground = { name: req.body.name, image: req.body.image }
-	campgrounds.push(newCampground)
+	var newCampground = { 
+		name: req.body.name,
+		image: req.body.image, 
+		description: req.body.description 
+	}
+	
+	Campground.create(newCampground, (err, res)=>{
+		if(err) throw err;
+		console.log(res);
+	})
 	// redirect to campgrounds page
 	res.redirect('/campgrounds')
+})
+
+// SHOW - Show Details for Selected Campground
+app.get('/campgrounds/:id', (req, res)=>{
+	// const selected = Campground.find(req.params.id);
+	Campground.findById(req.params.id, (err, result)=>{
+		if(err) throw err;
+		res.render('show', {campground: result})
+	})
 })
 
 app.listen(port, ()=>{
