@@ -1,7 +1,8 @@
 var express = require('express')
 	app = express()
 	bodyParser = require('body-parser')
-	mongoose = require('mongoose');
+	mongoose = require('mongoose'),
+	Campground = require('./models/campgrounds');
 
 var port = process.env.PORT || 3000;
 
@@ -15,14 +16,6 @@ app.get('/', (req, res)=>{
 
 // use mongodb and mongoose
 mongoose.connect('mongodb://localhost/yelp-camp', {useNewUrlParser: true})
-
-var campgroundSchema = new mongoose.Schema({
-    name: String,
-	image: String,
-	description: String
-})
-
-var Campground = mongoose.model("Campground", campgroundSchema)
 
 // Routes
 
