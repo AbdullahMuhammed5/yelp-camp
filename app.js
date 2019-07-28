@@ -1,10 +1,14 @@
-var express = require('express')
-	app = express()
-	bodyParser = require('body-parser')
+var express = require('express'),
+	app = express(),
+	bodyParser = require('body-parser'),
 	mongoose = require('mongoose'),
-	Campground = require('./models/campgrounds');
+	Campground = require('./models/campgrounds'),
+	seedDB = require("./seeds");
+
 
 var port = process.env.PORT || 3000;
+
+// seedDB();
 
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: true}))
@@ -53,12 +57,13 @@ app.post('/campgrounds', (req, res)=>{
 // SHOW - Show Details for Selected Campground
 app.get('/campgrounds/:id', (req, res)=>{
 	// const selected = Campground.find(req.params.id);
-	Campground.findById(req.params.id, (err, result)=>{
+	Campground.findById(req.params.id).populate("comments").exec((err, result)=>{
 		if(err) throw err;
+		console.log(result)
 		res.render('show', {campground: result})
 	})
 })
 
 app.listen(port, ()=>{
 	console.log('Server has started')
-})
+})	
