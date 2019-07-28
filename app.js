@@ -28,13 +28,13 @@ app.get('/campgrounds', (req, res)=>{
 	var AllCampgrounds;
 	Campground.find({}, (err, AllCampgrounds)=>{
 		if(err) throw err;
-		res.render('campgrounds', {campgrounds: AllCampgrounds})
+		res.render('campgrounds/index', {campgrounds: AllCampgrounds})
 	})
 })
 
 // NEW - Form page to add new Campground
 app.get('/campgrounds/new', (req, res)=>{
-	res.render('new')
+	res.render('campgrounds/new')
 })
 
 // CREATE - Add new Campground
@@ -60,7 +60,18 @@ app.get('/campgrounds/:id', (req, res)=>{
 	Campground.findById(req.params.id).populate("comments").exec((err, result)=>{
 		if(err) throw err;
 		console.log(result)
-		res.render('show', {campground: result})
+		res.render('campgrounds/show', {campground: result})
+	})
+})
+
+// =================
+// COMMENTS ROUTES
+// =================
+
+app.get('/campgrounds/:id/comments/new', (req, res)=>{
+	Campground.findById({_id: req.params.id}, (err, campground)=>{
+		if(err) throw err;
+		res.render('comments/new', {campground: campground})
 	})
 })
 
