@@ -38,7 +38,7 @@ function seedDB(){
                 // console.log(AddedCampgrounds)
                 Comment.create({
                     text: "this place is great with a fantastic view.",
-                    auther: "abdullah"
+                    author: "abdullah"
                 }, (err, comment)=>{
                     if (err) throw err;
                     AddedCampgrounds.comments.push(comment);
