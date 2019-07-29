@@ -13,7 +13,7 @@ var port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: true}))
-
+app.use(express.static(__dirname + "/public"));
 app.get('/', (req, res)=>{
 	res.render('landing')
 })
@@ -60,7 +60,6 @@ app.get('/campgrounds/:id', (req, res)=>{
 	// const selected = Campground.find(req.params.id);
 	Campground.findById(req.params.id).populate("comments").exec((err, result)=>{
 		if(err) throw err;
-		console.log(result)
 		res.render('campgrounds/show', {campground: result})
 	})
 })

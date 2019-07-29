@@ -13,13 +13,12 @@
 	<div class="row">
 		<% campgrounds.forEach( function(element, index) { %>
 			<div class="col-md-4 col-sm-6">
-				<figure class="figure">
+				<div class="card card-body p-1">
 					<a href="/campgrounds/<%=element._id%>">
-						<img src="<%= element.image%>" class="figure-img img-fluid">
+						<img src="<%= element.image%>" class="card-img-top img-fluid">
 					</a>
-
-					<figcaption class="figure-caption text-center"><%= element.name %></figcaption>
-				</figure>
+					<p class="figure-caption text-center"><%= element.name %></p>
+				</div>	
 			</div>
 		<% }) %>
 	</div>

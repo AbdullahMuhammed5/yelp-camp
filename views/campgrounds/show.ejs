@@ -1,16 +1,42 @@
 <% include ../partials/header.ejs%>
 
-<h1><%= campground.name%></h1>
-<img src="<%= campground.image %>" class="img-fluid"> 
-<p><%= campground.description%></p>
-<p>
-    <a href="/campgrounds/<%= campground._id%>/comments/new" class="btn btn-success">Add new comment</a>
-</p>
-<% campground.comments.forEach(comment => { %>
-    <p>
-        <strong><%= comment.author %></strong>
-        <%= comment.text %>
-    </p>
-<% }); %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">Yelp Camp</p>
+            <ul class="list-group">
+                <li class="list-group-item active">Info 1</li>
+                <li class="list-group-item">Info 2</li>
+                <li class="list-group-item">Info 3</li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <div class="card card-body mb-5 bg-white">
+                <img src="<%= campground.image%>" class="card-img-top" style="width: 100%">
+                <div class="card-body">
+                    <a href="/campgrounds/<%=campground._id%>">
+                        <h5 class="card-title"><%= campground.name%></h5>
+                    </a>
+                    <p class="cart-text"><%= campground.description%></p>
+                </div>
+            </div>    
+            <div class="card card-body bg-light">
+                <p>
+                    <a href="/campgrounds/<%= campground._id%>/comments/new" class="btn btn-success float-right">Add new comment</a>
+                </p>
+                <hr>
+                <% campground.comments.forEach(comment => { %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <strong><%= comment.author %></strong>
+                            <span class="float-right">9 Days Ago</span>
+                            <p><%= comment.text %></p>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>    
+    </div>
+</div>
 
 <% include ../partials/footer.ejs%>
