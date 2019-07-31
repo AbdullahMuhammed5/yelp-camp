@@ -39,6 +39,10 @@ passport.use(new localStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
+app.use((req, res, next)=>{
+	res.locals.currentUser = req.user
+	next()
+})
 
 // Routes
 
@@ -48,10 +52,9 @@ passport.deserializeUser(User.deserializeUser())
 
 // INDEX - Show all Campgrounds
 app.get('/campgrounds', (req, res)=>{
-	var AllCampgrounds;
 	Campground.find({}, (err, AllCampgrounds)=>{
 		if(err) throw err;
-		res.render('campgrounds/index', {campgrounds: AllCampgrounds})
+		res.render('campgrounds/index', {campgrounds: AllCampgrounds, currentUser: req.user})
 	})
 })
 
