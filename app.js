@@ -90,18 +90,18 @@ app.get('/campgrounds/:id', (req, res)=>{
 // COMMENTS ROUTES
 // =================
 
-app.get('/campgrounds/:id/comments/new', (req, res)=>{
+app.get('/campgrounds/:id/comments/new', isLoggedIn, (req, res)=>{
 	Campground.findById({_id: req.params.id}, (err, campground)=>{
 		if(err) throw err;
 		res.render('comments/new', {campground: campground})
 	})
 })
 
-app.post('/campgrounds/:id/comments', (req, res)=>{
+app.post('/campgrounds/:id/comments', isLoggedIn, (req, res)=>{
 	// lookup campgraound by id
 	Campground.findById(req.params.id, (err, campground)=>{
 		if(err) throw err;
-		
+		console.log(req.body.comment)
 		// create new comment
 		Comment.create(req.body.comment, (err, comment)=>{
 			if(err) throw err;
@@ -146,6 +146,19 @@ app.post('/login', passport.authenticate('local', {
 
 })
 
+// logout
+app.get('/logout', (req, res)=>{
+	req.logOut()
+	res.redirect('/campgrounds')
+})
+
+// Middlewares
+function isLoggedIn(req, res, next){
+	if(req.isAuthenticated	()){
+		return next()
+	}
+	res.redirect('/login')
+}
 app.listen(port, ()=>{
 	console.log('Server has started')
 })	

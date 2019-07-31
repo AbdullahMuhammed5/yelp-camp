@@ -4,10 +4,10 @@
 	<div style="width: 60%; margin: 0 auto">
 		<h1>Add your Comment</h1><hr>
 		<form action="/campgrounds/<%= campground._id %>/comments" method="POST">
-			<textarea name="commnet[text]" id=""
+			<textarea name="comment[text]" id=""
 			placeholder="Add a description"
 			class="form-control mb-2"></textarea>
-			<input type="text" name="comment[Author]" placeholder="Author" class="form-control mb-2">
+			<input type="text" name="comment[author]" placeholder="Author" class="form-control mb-2">
 			<button type="submit" class="btn btn-primary">Create</button>
 		</form>
 		or <a href="/campgrounds" class="mb-2">Go Back</a>
