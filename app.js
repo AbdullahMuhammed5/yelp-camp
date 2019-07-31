@@ -2,8 +2,11 @@ var express = require('express'),
 	app = express(),
 	bodyParser = require('body-parser'),
 	mongoose = require('mongoose'),
+	passport = require('passport'),
+	localStrategy = require('passport-local'),
 	Campground = require('./models/campgrounds'),
 	Comment = require('./models/comments'),
+	User = require('./models/user')
 	seedDB = require("./seeds");
 
 
@@ -22,7 +25,26 @@ app.get('/', (req, res)=>{
 // use mongodb and mongoose
 mongoose.connect('mongodb://localhost/yelp-camp', {useNewUrlParser: true})
 
+
+// Passport Configuration
+app.use(require('express-session')({
+	secret: "Text For hashing the password",
+	resave: false,
+	saveUninitialized: false
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new localStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
+
 // Routes
+
+// =================
+// CAMPGROUND ROUTES
+// =================
 
 // INDEX - Show all Campgrounds
 app.get('/campgrounds', (req, res)=>{
@@ -92,6 +114,24 @@ app.post('/campgrounds/:id/comments', (req, res)=>{
 	})
 })
 
+// =================
+// AUTHENTICATION ROUTES
+// =================
+app.get('/register', (req, res)=>{
+	res.render('register')
+})
+app.post('/register', (req, res)=>{
+	var newUser = new User({username: req.body.username})
+	User.register(newUser, req.body.password, (err, user)=>{
+		if(err){
+			console.log(err)
+			return res.render('register')
+		}
+		passport.authenticate('local')(req, res, ()=>{
+			res.redirect('/campgrounds')
+		})
+	})
+})
 app.listen(port, ()=>{
 	console.log('Server has started')
 })	
