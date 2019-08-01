@@ -19,6 +19,10 @@ router.post('/', isLoggedIn, (req, res)=>{
 		// create new comment
 		Comment.create(req.body.comment, (err, comment)=>{
 			if(err) throw err;
+			// get current user data and add it to comment
+			comment.author.id = req.user._id
+			comment.author.username = req.user.username
+			comment.save()
 			// connect new commnet to the campground
 			campground.comments.push(comment)
 			campground.save()

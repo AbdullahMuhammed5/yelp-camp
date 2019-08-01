@@ -35,7 +35,6 @@ function seedDB(){
             Campground.create(campground, (err, AddedCampgrounds)=>{
                 if (err) throw err;
                 console.log("Campground Add with name "+ AddedCampgrounds.name)
-                // console.log(AddedCampgrounds)
                 Comment.create({
                     text: "this place is great with a fantastic view.",
                     author: "abdullah"
@@ -47,6 +46,12 @@ function seedDB(){
                 })
             })
         });
+    })
+
+    // remove all comments
+    Comment.deleteMany({}, (err)=>{
+        if (err) throw err;
+        console.log('Comments removed!!')
     })
 
     // add a few commendts
