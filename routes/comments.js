@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router({mergeParams: true})
-const Campground = require('../models/campgrounds')
-const Comment = require('../models/comments')
+const Campground = require('../models/campground')
+const Comment = require('../models/comment')
 
 // Route to new comment form page
 router.get('/new', isLoggedIn, (req, res)=>{
