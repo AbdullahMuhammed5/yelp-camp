@@ -4,10 +4,9 @@ var express = require('express'),
 	mongoose = require('mongoose'),
 	passport = require('passport'),
 	localStrategy = require('passport-local'),
-	Campground = require('./models/campground'),
-	Comment = require('./models/comment'),
 	methodOverride = require('method-override'),
-	User = require('./models/user')
+	User = require('./models/user'),
+	flash = require('connect-flash'),
 	seedDB = require("./seeds");
 
 var authRoutes = require('./routes/auth'),
@@ -21,6 +20,7 @@ var port = process.env.PORT || 3000;
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(__dirname + "/public"));
+app.use(flash());
 
 // use mongodb and mongoose
 mongoose.connect('mongodb://localhost/yelp-camp', {useNewUrlParser: true})
@@ -45,6 +45,8 @@ app.use(methodOverride('_method'))
 // Middlewares
 app.use((req, res, next)=>{
 	res.locals.currentUser = req.user
+	res.locals.errorMsg = req.flash('error')
+	res.locals.successMsg = req.flash('success')
 	next()
 })
 

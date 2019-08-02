@@ -12,10 +12,12 @@ module.exports = {
                 if(result.author.id.equals(req.user._id)){
                     next()
                 } else{ // not then redirect
+                    req.flash('error', "You don't have permission to proceed!!")
                     res.redirect('back')
                 }
             })
         } else{ // not then redirect 
+            req.flash('error', "You need to be logged in first!")
             res.redirect('back')
         }
     },
@@ -27,10 +29,12 @@ module.exports = {
                 if(result.author.id.equals(req.user._id)){
                     next()
                 } else{ // not then redirect
+                    req.flash('error', "You don't have permission to proceed!!")
                     res.redirect('back')
                 }
             })
         } else{ // not then redirect 
+            req.flash('error', "You need to be logged in first!")
             res.redirect('back')
         }
     },
@@ -38,6 +42,7 @@ module.exports = {
         if(req.isAuthenticated()){
             return next()
         }
+        req.flash("error", "Please Login first!")
         res.redirect('/login')
     }
 }

@@ -26,6 +26,7 @@ router.post('/', middelwares.isLoggedIn, (req, res)=>{
 			// connect new commnet to the campground
 			campground.comments.push(comment)
 			campground.save()
+			req.flash('success', "Comment added Successfully!")
 			// redirect to the campground page
 			res.redirect('/campgrounds/' + campground._id)
 		})
@@ -41,7 +42,7 @@ router.get('/:comId/edit', middelwares.isCommentOwner, (req, res)=>{
 router.put('/:comId', middelwares.isCommentOwner, (req, res)=>{
 	Comment.findByIdAndUpdate(req.params.comId, req.body.comment, (err, updatedComment)=>{
 		if(err) throw err
-		console.log(updatedComment)
+		req.flash('success', "Comment updated Successfully!")
 		res.redirect('/campgrounds/'+req.params.id)
 	})
 })
@@ -49,7 +50,7 @@ router.put('/:comId', middelwares.isCommentOwner, (req, res)=>{
 router.delete('/:comId', middelwares.isCommentOwner , (req, res)=>{
 	Comment.findByIdAndDelete(req.params.comId, (err, result)=>{
 		if(err) throw err;
-		console.log('Comment Deleted Successfully..!!')
+		req.flash('success', "Comment deleted Successfully!")
 		res.redirect('/campgrounds/'+req.params.id)
 	})
 })

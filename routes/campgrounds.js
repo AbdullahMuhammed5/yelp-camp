@@ -31,6 +31,7 @@ router.post('/', middelwares.isLoggedIn, (req, res)=>{
 	
 	Campground.create(newCampground, (err, res)=>{
 		if(err) throw err;
+		req.flash('success', "Campground added Successfully!")
 		console.log(res);
 	})
 	// redirect to campgrounds page
@@ -61,7 +62,7 @@ router.put('/:id', middelwares.isCampgroundOwner, (req, res)=>{
 	}
 	Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updatedCampground)=>{
 		if(err) throw err
-		console.log(updatedCampground)
+		req.flash('success', "Campground Updated Successfully!")
 		res.redirect('/campgrounds/'+req.params.id)
 	})
 })
@@ -69,7 +70,7 @@ router.put('/:id', middelwares.isCampgroundOwner, (req, res)=>{
 router.delete('/:id', middelwares.isCampgroundOwner, (req, res)=>{
 	Campground.findByIdAndDelete(req.params.id, (err, result)=>{
 		if(err) throw err;
-		console.log('Campground Deleted Successfully..!!')
+		req.flash('success', "Campground deleted Successfully!")
 		res.redirect('/campgrounds')
 	})
 })
