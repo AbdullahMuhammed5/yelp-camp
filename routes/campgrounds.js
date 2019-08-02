@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Campground = require('../models/campground')
-
+const middelwares = require('../middleware')
 
 // INDEX - Show all Campgrounds
 router.get('/', (req, res)=>{
@@ -12,12 +12,12 @@ router.get('/', (req, res)=>{
 })
 
 // NEW - Form page to add new Campground
-router.get('/new', isLoggedIn, (req, res)=>{
+router.get('/new', middelwares.isLoggedIn, (req, res)=>{
 	res.render('campgrounds/new')
 })
 
 // CREATE - Add new Campground
-router.post('/', isLoggedIn, (req, res)=>{
+router.post('/', middelwares.isLoggedIn, (req, res)=>{
 	// get data form form request and add it to campgrounds array
 	var newCampground = { 
 		name: req.body.name,
@@ -47,13 +47,13 @@ router.get('/:id', (req, res)=>{
 })
 
 // EDIT - Route to edit page for campground
-router.get('/:id/edit', isOwner, (req, res)=>{
+router.get('/:id/edit', middelwares.isCampgroundOwner, (req, res)=>{
 	Campground.findById(req.params.id, (err, result)=>{
 		res.render("campgrounds/edit", {campground: result})
 	})
 })
 // UPDATE - Update campground
-router.put('/:id', isOwner, (req, res)=>{
+router.put('/:id', middelwares.isCampgroundOwner, (req, res)=>{
 	// add author to updatedCampground before submit changes
 	req.body.campground.author = {
 		id: req.user._id,
@@ -66,36 +66,12 @@ router.put('/:id', isOwner, (req, res)=>{
 	})
 })
 // DESTROY - Route to Delete campground
-router.delete('/:id', isOwner, (req, res)=>{
+router.delete('/:id', middelwares.isCampgroundOwner, (req, res)=>{
 	Campground.findByIdAndDelete(req.params.id, (err, result)=>{
 		if(err) throw err;
 		console.log('Campground Deleted Successfully..!!')
 		res.redirect('/campgrounds')
 	})
 })
-
-// Middlewares
-function isLoggedIn(req, res, next){
-	if(req.isAuthenticated()){
-		return next()
-	}
-	res.redirect('/login')
-}
-
-function isOwner(req, res, next){
-	if(req.isAuthenticated()){
-		Campground.findById(req.params.id, (err, result)=>{
-			if(err) throw err;
-			// is user own the campground?
-			if(result.author.id.equals(req.user._id)){
-				next()
-			} else{ // not then redirect
-				res.redirect('back')
-			}
-		})
-	} else{ // not then redirect 
-		res.redirect('back')
-	}
-}
 
 module.exports = router
