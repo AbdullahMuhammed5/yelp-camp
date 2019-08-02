@@ -42,7 +42,12 @@
                             <strong><%= comment.author.username %></strong>
                             <span class="float-right">
                                 9 Days Ago
+                            <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
                                 <a href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit" class="btn btn-warning">Edit</a>
+                                <form action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST" id="deleteForm">
+                                    <button class="btn btn-danger" type="submit">Delete</button>                   
+                                </form>
+                            <% } %>
                             </span>
                             <p><%= comment.text %></p>
                         </div>

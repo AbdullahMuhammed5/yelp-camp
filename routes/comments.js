@@ -32,16 +32,24 @@ router.post('/', isLoggedIn, (req, res)=>{
 	})
 })
 // EDIT - Route to edit page for campground
-router.get('/:comId/edit', (req, res)=>{
+router.get('/:comId/edit', isOwner, (req, res)=>{
 	Comment.findById(req.params.comId, (err, result)=>{
 		res.render("comments/edit", {comment: result, campgroundID: req.params.id})
 	})
 })
 // UPDATE - Update campground
-router.put('/:comId', (req, res)=>{
+router.put('/:comId', isOwner, (req, res)=>{
 	Comment.findByIdAndUpdate(req.params.comId, req.body.comment, (err, updatedComment)=>{
 		if(err) throw err
 		console.log(updatedComment)
+		res.redirect('/campgrounds/'+req.params.id)
+	})
+})
+// DESTROY - Route to Delete campground
+router.delete('/:comId', isOwner, (req, res)=>{
+	Comment.findByIdAndDelete(req.params.comId, (err, result)=>{
+		if(err) throw err;
+		console.log('Comment Deleted Successfully..!!')
 		res.redirect('/campgrounds/'+req.params.id)
 	})
 })
@@ -53,6 +61,22 @@ function isLoggedIn(req, res, next){
 		return next()
 	}
 	res.redirect('/login')
+}
+
+function isOwner(req, res, next){
+	if(req.isAuthenticated()){
+		Comment.findById(req.params.comId, (err, result)=>{
+			if(err) throw err;
+			// is user own the campground?
+			if(result.author.id.equals(req.user._id)){
+				next()
+			} else{ // not then redirect
+				res.redirect('back')
+			}
+		})
+	} else{ // not then redirect 
+		res.redirect('back')
+	}
 }
 
 module.exports = router
