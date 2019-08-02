@@ -6,6 +6,7 @@ var express = require('express'),
 	localStrategy = require('passport-local'),
 	Campground = require('./models/campground'),
 	Comment = require('./models/comment'),
+	methodOverride = require('method-override'),
 	User = require('./models/user')
 	seedDB = require("./seeds");
 
@@ -23,6 +24,7 @@ app.use(express.static(__dirname + "/public"));
 
 // use mongodb and mongoose
 mongoose.connect('mongodb://localhost/yelp-camp', {useNewUrlParser: true})
+mongoose.set('useFindAndModify', false);
 
 // Passport Configuration
 app.use(require('express-session')({
@@ -36,6 +38,9 @@ app.use(passport.session())
 passport.use(new localStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
+
+// Use method ovverride
+app.use(methodOverride('_method'))
 
 // Middlewares
 app.use((req, res, next)=>{

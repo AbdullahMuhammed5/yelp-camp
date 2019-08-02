@@ -46,6 +46,27 @@ router.get('/:id', (req, res)=>{
 	})
 })
 
+// EDIT - Route to edit page for campground
+router.get('/:id/edit', (req, res)=>{
+	Campground.findById(req.params.id, (err, result)=>{
+		if(err) throw err;
+		res.render("campgrounds/edit", {campground: result})
+	})
+})
+// UPDATE - Update campground
+router.put('/:id', (req, res)=>{
+	// add author to updatedCampground before submit changes
+	req.body.campground.author = {
+		id: req.user._id,
+		username: req.user.username
+	}
+	Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updatedCampground)=>{
+		if(err) throw err
+		console.log(updatedCampground)
+		res.redirect('/campgrounds/'+req.params.id)
+	})
+})
+
 // Middlewares
 function isLoggedIn(req, res, next){
 	if(req.isAuthenticated()){
