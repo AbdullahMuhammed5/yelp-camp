@@ -31,6 +31,21 @@ router.post('/', isLoggedIn, (req, res)=>{
 		})
 	})
 })
+// EDIT - Route to edit page for campground
+router.get('/:comId/edit', (req, res)=>{
+	Comment.findById(req.params.comId, (err, result)=>{
+		res.render("comments/edit", {comment: result, campgroundID: req.params.id})
+	})
+})
+// UPDATE - Update campground
+router.put('/:comId', (req, res)=>{
+	Comment.findByIdAndUpdate(req.params.comId, req.body.comment, (err, updatedComment)=>{
+		if(err) throw err
+		console.log(updatedComment)
+		res.redirect('/campgrounds/'+req.params.id)
+	})
+})
+
 
 // Middlewares
 function isLoggedIn(req, res, next){

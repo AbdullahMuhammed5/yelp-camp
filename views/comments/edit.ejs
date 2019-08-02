@@ -1,0 +1,15 @@
+<% include ../partials/header.ejs%>
+
+<div class="container">
+	<div style="width: 60%; margin: 0 auto">
+		<h1>Edit Your Comment</h1><hr>
+		<form action="/campgrounds/<%= campgroundID %>/comments/<%= comment._id %>?_method=PUT" method="post">
+			<textarea name="comment[text]" id=""
+			class="form-control mb-2"><%=comment.text%></textarea>
+			<button type="submit" class="btn btn-primary">Update</button>
+		</form>
+		or <a href="/comments/<%= comment._id %>" class="mb-2">Go Back</a>
+	</div>
+</div>
+
+<% include ../partials/footer.ejs %>
