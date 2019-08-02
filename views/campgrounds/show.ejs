@@ -23,7 +23,10 @@
                     </p>
                 </div>
                 <div class="card-footer">
-                    <a href="/campgrounds/<%=campground._id%>/edit" class="btn btn-warning">Edit Post</a>
+                    <a href="/campgrounds/<%=campground._id%>/edit" class="btn btn-warning">Edit</a>
+                    <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST" id="deleteForm">
+                        <button class="btn btn-danger" type="submit">Delete</button>                   
+                    </form>
                 </div>
             </div>    
             <div class="card card-body bg-light">

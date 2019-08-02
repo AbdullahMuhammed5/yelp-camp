@@ -50,7 +50,7 @@ router.get('/:id', (req, res)=>{
 router.get('/:id/edit', (req, res)=>{
 	Campground.findById(req.params.id, (err, result)=>{
 		if(err) throw err;
-		res.render("campgrounds/edit", {campground: result})
+		res.render("/campgrounds/edit", {campground: result})
 	})
 })
 // UPDATE - Update campground
@@ -64,6 +64,14 @@ router.put('/:id', (req, res)=>{
 		if(err) throw err
 		console.log(updatedCampground)
 		res.redirect('/campgrounds/'+req.params.id)
+	})
+})
+// DESTROY - Route to Delete campground
+router.delete('/:id', (req, res)=>{
+	Campground.findByIdAndDelete(req.params.id, (err, result)=>{
+		if(err) throw err;
+		console.log('Campground Deleted Successfully..!!')
+		res.redirect('/campgrounds')
 	})
 })
 
