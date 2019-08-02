@@ -47,14 +47,13 @@ router.get('/:id', (req, res)=>{
 })
 
 // EDIT - Route to edit page for campground
-router.get('/:id/edit', (req, res)=>{
+router.get('/:id/edit', isOwner, (req, res)=>{
 	Campground.findById(req.params.id, (err, result)=>{
-		if(err) throw err;
-		res.render("/campgrounds/edit", {campground: result})
+		res.render("campgrounds/edit", {campground: result})
 	})
 })
 // UPDATE - Update campground
-router.put('/:id', (req, res)=>{
+router.put('/:id', isOwner, (req, res)=>{
 	// add author to updatedCampground before submit changes
 	req.body.campground.author = {
 		id: req.user._id,
@@ -67,7 +66,7 @@ router.put('/:id', (req, res)=>{
 	})
 })
 // DESTROY - Route to Delete campground
-router.delete('/:id', (req, res)=>{
+router.delete('/:id', isOwner, (req, res)=>{
 	Campground.findByIdAndDelete(req.params.id, (err, result)=>{
 		if(err) throw err;
 		console.log('Campground Deleted Successfully..!!')
@@ -81,6 +80,22 @@ function isLoggedIn(req, res, next){
 		return next()
 	}
 	res.redirect('/login')
+}
+
+function isOwner(req, res, next){
+	if(req.isAuthenticated()){
+		Campground.findById(req.params.id, (err, result)=>{
+			if(err) throw err;
+			// is user own the campground?
+			if(result.author.id.equals(req.user._id)){
+				next()
+			} else{ // not then redirect
+				res.redirect('back')
+			}
+		})
+	} else{ // not then redirect 
+		res.redirect('back')
+	}
 }
 
 module.exports = router
