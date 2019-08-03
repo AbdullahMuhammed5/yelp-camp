@@ -14,6 +14,7 @@
             <div class="card card-body mb-5 bg-white">
                 <img src="<%= campground.image%>" class="card-img-top" style="width: 100%">
                 <div class="card-body">
+                    <span class="float-right"><strong>$<%= campground.price %>/night</strong></span>
                     <a href="/campgrounds/<%=campground._id%>">
                         <h5 class="card-title"><%= campground.name%></h5>
                     </a>

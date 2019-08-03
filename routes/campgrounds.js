@@ -21,6 +21,7 @@ router.post('/', middelwares.isLoggedIn, (req, res)=>{
 	// get data form form request and add it to campgrounds array
 	var newCampground = { 
 		name: req.body.name,
+		price: req.body.price,
 		image: req.body.image, 
 		description: req.body.description,
 		author: {

@@ -5,6 +5,7 @@
 		<h1>Edit <%=campground.name%></h1><hr>
 		<form action="/campgrounds/<%= campground._id %>?_method=PUT" method="post">
 			<input type="text" name="campground[name]" placeholder="Name" class="form-control mb-2" value="<%=campground.name%>">
+			<input type="number" name="campground[price]" placeholder="Price/Night" class="form-control mb-2" value="<%=campground.price%>">
 			<input type="text" name="campground[image]" placeholder="Image Url" class="form-control mb-2" value="<%= campground.image %>">
 			<textarea name="campground[description]" id=""
 			placeholder="Add a description"
