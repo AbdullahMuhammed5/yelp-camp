@@ -9,8 +9,23 @@ body {
     padding-top: 40vh;
 }
 
+.btn-lg{
+  background-color: #f8d00c;
+  border-color: #f8d00c;
+  outline: none;
+  color: #fff;
+}
+
+.btn-lg:hover{
+  background-color: #f8d00c;
+  border-color: #f8d00c;
+  transform: scale(1.1);
+  color: #fff;
+}
+
 #landing-header h1 {
     color: #fff;
+    font-size: 60px;
 }
 
 .slideshow { 
@@ -40,24 +55,21 @@ body {
 }
 
 .slideshow li:nth-child(1) { 
-    background-image: url(https://cdn-1.sportsden.ie/media/wysiwyg/menu_blocks/camping_menu/Camping.jpg) 
-  }
-  .slideshow li:nth-child(2) { 
-    background-image: url(https://agbmedia.blob.core.windows.net/media/2018/02/camping.jpg);
-    animation-delay: 10s; 
-  }
-  .slideshow li:nth-child(3) { 
-    background-image: url(https://www.nps.gov/mora/planyourvisit/images/OhanaCampground2016_CMeleedy_01_web.jpeg?maxwidth=1200&maxheight=1200&autorotate=false);
-    animation-delay: 20s; 
-  }
-  .slideshow li:nth-child(4) { 
-    background-image: url(https://www.nationalparks.nsw.gov.au/-/media/npws/images/parks/munmorah-state-conservation-area/background/freemans-campground-background.jpg);
-    animation-delay: 30s; 
-  }
-  /* .slideshow li:nth-child(5) { 
-    background-image: url(http://i.imgur.com/TVGe0Ef.jpg);
-    animation-delay: 40s; 
-} */
+  background-image: url(../imgs/camp1.jpg);
+}
+.slideshow li:nth-child(2) { 
+  background-image: url(../imgs/camp2.jpg);
+  animation-delay: 10s; 
+}
+.slideshow li:nth-child(3) { 
+  background-image: url(../imgs/camp3.jpeg);
+  animation-delay: 20s; 
+}
+.slideshow li:nth-child(4) { 
+  background-image: url(../imgs/camp4.jpg);
+  animation-delay: 30s; 
+}
+  
 
 @keyframes imageAnimation { 
     0% { 
