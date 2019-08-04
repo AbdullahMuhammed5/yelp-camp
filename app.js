@@ -23,7 +23,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(flash());
 
 // use mongodb and mongoose
-mongoose.connect('mongodb://localhost/yelp-camp', {useNewUrlParser: true})
+mongoose.connect(process.env.DatabaseURL, {useNewUrlParser: true})
 mongoose.set('useFindAndModify', false);
 
 // Passport Configuration
