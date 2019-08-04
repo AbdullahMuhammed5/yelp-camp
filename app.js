@@ -23,7 +23,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(flash());
 
 // use mongodb and mongoose
-mongoose.connect(process.env.DatabaseURL, {useNewUrlParser: true})
+mongoose.connect("mongodb+srv://abdullah:0123456@cluster0-lmjvr.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true})
 mongoose.set('useFindAndModify', false);
 
 // Passport Configuration
