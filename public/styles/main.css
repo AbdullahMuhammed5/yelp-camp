@@ -1,6 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap');
+.navbar{
+    /* background-color: #f8d00c !important; */
+}
+.navbar .nav-link{
+    font-size: 20px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
 #deleteForm{
     display: inline;
 }
 .btn{
     color: white;
 }
+.dropdown-toggle::after {
+    display: none;
+}
+body{
+    position: relative;
+    min-height: 100vh;
+}
+#page-container {
+    padding-bottom: 2.5rem;
+  }
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;
+  }
