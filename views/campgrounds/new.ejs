@@ -4,10 +4,11 @@
 	<div style="width: 60%; margin: 0 auto">
 		<h1>Create New Camground</h1><hr>
 		<form action="/campgrounds" method="post">
-			<input type="text" name="name" placeholder="Name" class="form-control mb-2">
-			<input type="number" name="price" placeholder="Price/Night" class="form-control mb-2" min="0.1" step="0.1">
-			<input type="text" name="image" placeholder="Image Url" class="form-control mb-2">
-			<textarea name="description" id=""
+			<input type="text" name="name" placeholder="Name" class="form-control mb-2" required>
+			<input type="number" name="price" placeholder="Price/Night" class="form-control mb-2" 
+				min="0.1" step="0.1" oninput="this.value = Math.abs(this.value)">
+			<input type="text" name="image" placeholder="Image Url" class="form-control mb-2" required>
+			<textarea name="description" required
 			placeholder="Add a description"
 			class="form-control mb-2"></textarea>
 			<button type="submit" class="btn btn-primary">Create</button>

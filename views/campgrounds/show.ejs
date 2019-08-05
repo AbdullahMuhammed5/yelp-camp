@@ -13,9 +13,9 @@
         <div class="col-md-9">
             <div class="card card-body mb-5 bg-white">
                 <div class="card-header bg-white">
-                    <a href="/campgrounds/<%=campground._id%>" class="float-left">
-                        <h5 class="card-title"><%= campground.name%></h5>
-                    </a>
+                    
+                    <h5 class="card-title float-left"><%= campground.name%></h5>
+                    
                     <% if(currentUser && campground.author.id.equals(currentUser._id)) { %>
                     <div class="dropdown float-right">
                         <i class="fas fa-ellipsis-v dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>

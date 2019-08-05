@@ -6,7 +6,7 @@
 		<form action="/campgrounds/<%= campground._id %>/comments" method="POST">
 			<textarea name="comment[text]" id=""
 			placeholder="Add a Comment"
-			class="form-control mb-2"></textarea>
+			class="form-control mb-2" required></textarea>
 			<button type="submit" class="btn btn-primary">Create</button>
 		</form>
 		or <a href="/campgrounds/<%= campground._id %>" class="mb-2">Go Back</a>
