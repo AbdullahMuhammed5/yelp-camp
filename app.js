@@ -22,8 +22,16 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(__dirname + "/public"));
 app.use(flash());
 
+const DB = process.env.DATABASE_URL.replace(
+	'<password>',
+	process.env.DB_PASSWORD
+  ).replace(
+	'<username>',
+	process.env.DB_USER_NAME
+  );
+
 // use mongodb and mongoose
-mongoose.connect(process.env.DatabaseURL, {useNewUrlParser: true})
+mongoose.connect(DB, {useNewUrlParser: true})
 mongoose.set('useFindAndModify', false);
 
 // Passport Configuration
@@ -35,6 +43,7 @@ app.use(require('express-session')({
 
 app.use(passport.initialize())
 app.use(passport.session())
+
 passport.use(new localStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
